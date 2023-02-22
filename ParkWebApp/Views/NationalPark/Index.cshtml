@@ -1,0 +1,23 @@
+﻿<div class="row">
+    <div class="col-4">
+        <h2 class="text-info">National Park List</h2>
+    </div>
+    <div class="col-8">
+        <a class="btn btn-success text-white float-right" asp-action="Upsert"><i class="fas fa-plus"></i>&nbsp; National Park</a>
+    </div>
+</div>
+<div class="p-2">
+    <table class="table table-active table-bordered table-striped table-info table-hover" id="tblData">
+        <thead class="thead-dark offset-6">
+            <tr>
+                <th>Name</th>
+                <th>State</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+@section scripts{ 
+   <script src="~/js/NationalPark.js"></script>
+}
+

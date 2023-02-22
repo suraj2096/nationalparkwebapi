@@ -1,0 +1,91 @@
+﻿@model ParkWebApp.Models.View_Model.TrailVM
+
+@{
+    var title = Model.trail.Id != 0 ? "Update Trail" : "Create Trail";
+    var btn = Model.trail.Id != 0 ? "Update" : "Save";
+}
+<div class="row border-bottom">
+    <h2 class="text-info font-weight-light">@title</h2>
+</div>
+<div class="mt-3">
+    <form method="post">
+        <div asp-validation-summary="ModelOnly">
+        </div>
+        <input type="hidden" asp-for="trail.Id" />
+        <div class="row col-8 p-3">
+            <div class="col-3">
+                <label asp-for="trail.NationalParkId"></label>
+            </div>
+            <div class="col-5">
+                @Html.DropDownListFor(m => m.trail.NationalParkId, Model.NationalParkList, "Select the National Park", new { @class = "form-control" })
+            </div>
+            <span asp-validation-for="trail.NationalParkId" class="text-danger"></span>
+        </div>
+        <div class="row col-8 p-3">
+            <div class="col-3">
+                <label asp-for="trail.Name"></label>
+            </div>
+            <div class="col-5">
+                <input type="text" asp-for="trail.Name" class="form-control" />
+            </div>
+        </div>
+        <div class="row col-8 p-3">
+            <div class="col-3">
+                <label asp-for="trail.Difficulty"></label>
+            </div>
+            <div class="col-5">
+                @*here html.getenumselectlist() return select list from the enumeration*@
+                <select asp-for="trail.Difficulty" asp-items="Html.GetEnumSelectList<ParkWebApp.Models.Trail.DifficultyType>()" class="form-control"></select>
+            </div>
+        </div>
+        <div class="row col-8 p-3">
+            <div class="col-3">
+                <label asp-for="trail.Distance"></label>
+            </div>
+            <div class="col-5">
+               
+                <input asp-for="trail.Distance" class="form-control" />
+            </div>
+        </div>
+        <div class="row col-8 p-3">
+            <div class="col-3">
+                <label asp-for="trail.Elevation"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="trail.Elevation" class="form-control" />
+            </div>
+        </div>
+        <div class="row col-8 p-3">
+            <div class="col-3">
+                <label asp-for="trail.DateCreated"></label>
+            </div>
+            @{ 
+                var date = Model.trail.DateCreated.ToShortDateString();
+            }
+            <div class="col-5">
+              
+                <input type="text" id="tableDate" asp-for="trail.DateCreated" class="form-control" value="@date" />
+            </div>
+        </div>
+        <div class="row col-8 p-3">
+            <div class="col-5 offset-md-1">
+                <a asp-action="Index" class="btn btn-info float-right">Back To List</a>
+            </div>
+            <div class="col-3">
+                <button type="submit" class="btn btn-success">@btn</button>
+            </div>
+        </div>
+    </form>
+</div>
+@section scripts{
+    <partial name="_ValidationScriptsPartial"/>
+     <script>
+         $(function () {
+             $('#tableDate').datepicker({
+                 dateFormat: "dd-M-yy",
+                 changeMonth: true,
+                 changeYear: true
+             })
+         })
+     </script>
+}

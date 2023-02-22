@@ -1,0 +1,104 @@
+﻿@model ParkWebApp.Models.NationalPark
+@{ 
+    var title = Model.Id != 0 ? "Update National Park" : "Create National Park";
+    var btn = Model.Id != 0 ? "Update" : "Save";
+}
+<div class="row border-bottom">
+    <h2>@title</h2>
+</div>
+<div class="row mt-3">
+    <div class="col-8">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly"></div>
+            @if (Model.Id != 0)
+            {
+                <input type="hidden" asp-for="Id" />
+            }
+            <div class="row p-2">
+                <div class="col-3">
+                    <label class="text-info" asp-for="Name"></label>
+                </div>
+                <div class="col-5">
+                    <input type="text" class="form-control" asp-for="Name" />
+                </div>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="row p-2">
+                <div class="col-3">
+                    <label class="text-info" asp-for="State"></label>
+                </div>
+                <div class="col-5">
+                    <input type="text" class="form-control" asp-for="State" />
+                </div>
+                <span asp-validation-for="State" class="text-danger"></span>
+            </div>
+            <div class="row p-2">
+                <div class="col-3">
+                    <label class="text-info" asp-for="Picture"></label>
+                </div>
+                <div class="col-5">
+                    <input type="file" multiple id="projectImage"   asp-for="Picture"/>
+                </div>
+                <span asp-validation-for="Picture" class="text-danger"></span>
+            </div>
+            <div class="row p-2">
+                <div class="col-3">
+                    <label class="text-info" asp-for="Established"></label>
+                </div>
+                @{ 
+                    var dateest = "";
+                    if (Model.Id != 0)
+                    {
+                        dateest = Model.Established.ToShortDateString();
+                    }
+                }
+                <div class="col-5">
+                    <input type="text" id="datePicker"  class="form-control" value="@dateest" asp-for="Established"/>
+                </div>
+                <span asp-validation-for="Established" class="text-danger"></span>
+            </div>
+            <div class="row p-2 text-center">
+                <div class="col-4 offset-1 p-0">
+                   <a asp-action="Index" class="btn btn-info float-md-right ">Back to List</a>
+                </div>
+                <div class="col-3 p-0">
+                    <button type="submit" class="btn btn-success float-left ml-2">@btn</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="col-4">
+        <div class="col-4">
+           @if (Model.Picture != null)
+           {
+               // image code to convert the byte image come from database convert it to actual display image
+               var base64 = Convert.ToBase64String(Model.Picture);
+               var imageSrc = string.Format("data:image/jpg;base64,{0}", base64);
+               <img  src="@imageSrc" width="100%"/>
+           }
+            else
+            {
+                <p class="text-danger">No image Exist</p>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts{
+<partial name="_ValidationScriptsPartial"/> 
+<script>
+    $(function () {
+        $('#datePicker').datepicker({
+            dateFormat:"dd-M-yy",
+            changeMonth: true,
+            changeYear: true
+        })
+    })
+    
+
+
+</script>
+}
+
